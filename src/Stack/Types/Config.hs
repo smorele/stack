@@ -1086,6 +1086,7 @@ data ConfigException
   | BadStackRoot (Path Abs Dir)
   | Won'tCreateStackRootInDirectoryOwnedByDifferentUser (Path Abs Dir) (Path Abs Dir) -- ^ @$STACK_ROOT@, parent dir
   | UserDoesn'tOwnDirectory (Path Abs Dir)
+  | ManualGHCVariantSettingsAreIncompatibleWithSystemGHC
   deriving Typeable
 instance Show ConfigException where
     show (ParseConfigFileException configFile exception) = concat
@@ -1180,6 +1181,13 @@ instance Show ConfigException where
         , "\nRetry with '--"
         , T.unpack configMonoidAllowDifferentUserName
         , "' to disable this precaution."
+        ]
+    show ManualGHCVariantSettingsAreIncompatibleWithSystemGHC = T.unpack $ T.concat
+        [ "stack can only control the "
+        , configMonoidGHCVariantName
+        , " of its own GHC installations. Please use '--no-"
+        , configMonoidSystemGHCName
+        , "'."
         ]
 instance Exception ConfigException
 

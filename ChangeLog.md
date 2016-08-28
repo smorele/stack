@@ -6,6 +6,15 @@ Release notes:
 
 Major changes:
 
+* Stack will now always use its own GHC installation, even when a suitable GHC
+  installation is available on the PATH. To get the old behaviour, use
+  the `--system-ghc` flag or set `system-ghc: true` in your ~/.stack/config.yaml.
+
+  NB: Scripts that previously used stack in combination with a system GHC
+  installation should now include a `stack setup` line or use the `--install-ghc`
+  flag.
+  [#2221](https://github.com/commercialhaskell/stack/issues/2221)
+
 Behavior changes:
 
 * Switch the "Run from outside project" messages to debug-level, to
